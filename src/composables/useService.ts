@@ -13,7 +13,7 @@ const { sendNotification } = useNotification()
 
 const services = ref<Service[]>([])
 const totalPages = ref<number>(0)
-const page = ref<number>(1)
+const page = ref<number>(0)
 //data for create service
 const brand = ref<string>()
 

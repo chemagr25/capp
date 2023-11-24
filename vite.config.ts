@@ -9,6 +9,11 @@ export default defineConfig({
   plugins: [
     vue(),
     VitePWA({
+      registerType: 'autoUpdate',
+
+      devOptions: {
+        enabled: true
+      },
       manifest: {
 
     "theme_color": "#3558f6",
@@ -43,6 +48,7 @@ export default defineConfig({
     ]
       },
       workbox: {
+        cleanupOutdatedCaches: false,
         globPatterns: ['**/*.{jpg,png,json,html,js,css,svg,woff2,woff,ttf}'],
         runtimeCaching: [
           {
@@ -56,7 +62,8 @@ export default defineConfig({
                 statuses: [0, 200]
               }
             }
-          }
+          },
+
         ]
       }
     })

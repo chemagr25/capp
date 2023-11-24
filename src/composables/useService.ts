@@ -57,6 +57,7 @@ const commentText = ref()
 
 export const useService = () => {
   const hasError = ref<boolean>(false)
+
   const getAllServices = async () => {
     isLoading.value = true
     try {
@@ -73,8 +74,10 @@ export const useService = () => {
       totalPages.value = data.totalPages
     } catch(e) {
       console.log(e)
+
+      
       isLoading.value = false
-      showToast('Error', 'Ocurrió un error, inténtalo nuevamente más tarde')
+      showToast('Navegando sin coneción', 'Revisa tu conexión a internet e inténtalo nuevamente')
       // localStorage.removeItem('token_auth')
       // localStorage.removeItem('uid')
       // localStorage.removeItem('role')
@@ -153,7 +156,7 @@ export const useService = () => {
       goBack()
 
     }catch(e) {
-      alert(e)
+      // alert(e)
       showToast('Error', 'Ocurrió un error, inténtalo nuevamente más tarde')
     }
 
@@ -161,8 +164,9 @@ export const useService = () => {
 
   const getServiceById = async (id: string | number | string[]) => {
     totalPartsPrice.value = 0
-    // isLoading.value = true
+    isLoading.value = true
     try {
+
       const { data } = await apiResources.get<Service>(`/services/${id}`, {
         headers: {
           Authorization: 'Bearer ' + localStorage.getItem('token_auth')

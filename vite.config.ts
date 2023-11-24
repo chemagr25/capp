@@ -10,7 +10,7 @@ export default defineConfig({
     vue(),
     VitePWA({
       manifest: {
-   
+
     "theme_color": "#3558f6",
     "background_color": "#35b6f6",
     "display": "minimal-ui",

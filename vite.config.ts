@@ -10,9 +10,10 @@ export default defineConfig({
     vue(),
     VitePWA({
       manifest: {
-        "theme_color": "#3558f6",
+   
+    "theme_color": "#3558f6",
     "background_color": "#35b6f6",
-    "display": "browser",
+    "display": "minimal-ui",
     "scope": "/",
     "start_url": "/",
     "name": "Compuactual",
@@ -21,7 +22,8 @@ export default defineConfig({
         {
             "src": "/icon-192x192.png",
             "sizes": "192x192",
-            "type": "image/png"
+            "type": "image/png",
+            
         },
         {
             "src": "/icon-256x256.png",

@@ -9,7 +9,8 @@ export const showToast = (title: string, description?: string, type?: ToastType)
     {
       type: type || 'danger',
       timeout: 3000,
-      hideProgressBar: true
+      hideProgressBar: true,
+      swipeClose: true,
     }
   )
 }

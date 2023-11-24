@@ -124,7 +124,7 @@ export const useService = () => {
           Authorization: 'Bearer ' + localStorage.getItem('token_auth')
         }
       })
-
+      console.log(data)
       return data
     } catch {
       console.log('error')
@@ -142,6 +142,7 @@ export const useService = () => {
       })
 
       service.value = data
+      console.log(data)
       idDevice.value = data.device.id
       const device = await getDeviceService(idDevice.value)
 

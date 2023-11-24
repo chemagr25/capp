@@ -5,7 +5,7 @@ import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { useService } from '@/composables/useService'
 import Loader from '@/components/Loader.vue'
 import RatingComponent from '@/components/RatingComponent.vue'
-import { PhotoIcon, PlusCircleIcon, CameraIcon } from '@heroicons/vue/24/outline'
+import { PhotoIcon, PlusCircleIcon, CameraIcon,ChatBubbleLeftRightIcon } from '@heroicons/vue/24/outline'
 import LoaderButton from '@/components/LoaderButton.vue'
 
 import { capitalize, setColor } from '@/helpers/capitalizestr'
@@ -24,7 +24,7 @@ const {
   sendMessage,
   commentText, photoComment,
   loadingComment,
-  deviceParts, totalPartsPrice } =
+  deviceParts, totalPartsPrice, deleteService } =
   useService()
 
 const id = ref<string | string[]>(useRoute().params.id)
@@ -82,12 +82,12 @@ const takePhoto = async () => {
 
 
 
+const delService = () => {
+  deleteService(id.value)
+}
 
 onMounted(() => {
   getServiceById(id.value)
-
-
-
 
 })
 </script>
@@ -96,7 +96,7 @@ onMounted(() => {
   <div v-if="isLoading" class="w-full overflow-hidden flex justify-center">
     <Loader></Loader>
   </div>
-  <div class="flex justify-center flex-col items-center" v-else>
+  <div class="flex  justify-center flex-col items-center" v-else>
     <div class="w-full lg:w-3/4 text-neutral rounded-xl bg-secondary shadow-lg p-5 border border-base-300">
       <div class="w-full h-full flex flex-col">
         <div class="tools w-full h-full flex justify-between items-center">
@@ -140,7 +140,7 @@ onMounted(() => {
           </div>
           <div class="flex justify-center flex-col col-span-3 md:col-span-1 items-center">
             <p class="font-bold text-xl">Dispositivo</p>
-            <p class="mt-2">{{ service?.device.brand }} {{ service?.device.model }} {{ service?.device.id }}</p>
+            <p class="mt-2">{{ service?.device.brand }}  {{ service?.device.model }} {{ service?.device.id }}</p>
           </div>
           <div class="flex justify-center flex-col col-span-3 md:col-span-1 items-center">
             <p class="font-bold text-xl">Técnico</p>
@@ -158,15 +158,14 @@ onMounted(() => {
             {{ service?.observation }}
           </div>
         </div>
-        <p class="ml-auto mt-3 font-medium">Total sin piezas: ${{ service?.price }}</p>
-        <p class="ml-auto mt-3 font-medium">+ piezas: ${{ totalPartsPrice }}</p>
+        <p class="ml-auto mt-3 font-medium">Total sin piezas: ${{ service?.price }} + piezas: ${{ totalPartsPrice }}</p>
         <p v-if="service?.price" class="ml-auto mt-3 font-bold">Total: $ {{ totalPartsPrice + service?.price }} </p>
       </div>
       <div class="w-full h-full mt-11 flex flex-col">
-        <div class="flex justify-between items-center  ">
+        <div class="flex justify-between  gap-2 items-center  ">
           <div class="flex justify-center  flex-col items-center">
             <button class="btn btn-accent text-white" onclick="my_modal_2.showModal()">
-              Ver mensajes
+                <ChatBubbleLeftRightIcon class="w-5"></ChatBubbleLeftRightIcon>
             </button>
             <dialog id="my_modal_2" class="modal">
               <form method="dialog" class="modal-box bg-secondary border border-base-300 overflow-auto max-h-[80%]">
@@ -189,19 +188,7 @@ onMounted(() => {
                   <form @submit.prevent ref="formComment">
                     <label for="chat" class="sr-only">Your message</label>
                     <div class="flex bg-primary items-center px-3 py-2 rounded-lg">
-                      <button type="button"
-                        class="inline-flex justify-center p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
-                        <div class="image-upload">
-                          <label for="file-input" class="cursor-pointer">
-                            <PhotoIcon class="w-5"></PhotoIcon>
-                          </label>
-
-                          <input @change="uploadImage" id="file-input" type="file" class="hidden" />
-                        </div>
-
-                        <span class="sr-only">Upload image</span>
-                      </button>
-
+                     
                       <button @click="takePhoto" type="button"
                         class="inline-flex justify-center p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
                         <div class="image-upload">
@@ -288,18 +275,18 @@ onMounted(() => {
                 <button @click="setPiece" class="btn mt-4">Enviar</button>
               </div>
             </dialog>
-
-          </div>
-
-
-          <div class="flex justify-end items-end">
-            <RatingComponent></RatingComponent>
           </div>
         </div>
       </div>
     </div>
-    <div class="h-40"></div>
+
+    <div class="h-20 flex  items-center justify-center">
+      
+      <button class="btn btn-error text-white" @click="delService">Eliminar servicio</button>
+
+    </div>
   </div>
+ 
 </template>
 
 <style scoped></style>

@@ -2,6 +2,7 @@
 import { onMounted, ref } from 'vue'
 import { sidebarActions } from '@/shared/sidebarActions'
 import ChangeTheme from '@/components/ChangeTheme.vue'
+import { ArrowLeftIcon, ArrowPathIcon } from '@heroicons/vue/24/outline'
 
 import BottomNavigation from '@/components/BottomNavigation.vue'
 import router from '@/router'
@@ -15,6 +16,14 @@ const logout = () => {
   localStorage.removeItem('uid')
   router.push({ name: 'login' })
 }
+const goBack =() => {
+  router.go(-1)
+}
+
+const reload = () => {
+  router.go(0)
+}
+
 
 console.log(isTech.value)
 const showSideMobile = ref<boolean>(false)
@@ -27,6 +36,9 @@ const showSideMobile = ref<boolean>(false)
         <div class="px-3 py-3 h-full flex items-center lg:px-5 lg:pl-3">
           <div class="flex items-center w-full justify-between">
             <div class="flex items-center justify-start">
+              <button @click="goBack" class="btn btn-ghost mr-2">
+                <ArrowLeftIcon class="w-5 "></ArrowLeftIcon>
+              </button>
               <button
                 @click="showSideMobile = !showSideMobile"
                 id="toggleSidebarMobile"
@@ -66,7 +78,15 @@ const showSideMobile = ref<boolean>(false)
                   >CompuActual</span
                 >
               </div>
+
+              <!-- <button @click="reload" class="btn btn-ghost mr-2">
+                <ArrowPathIcon class="w-5"></ArrowPathIcon>
+              </button> -->
+           
+              
             </div>
+
+            
             <div class=" md:flex gap-8">
               <div class="dropdown dropdown-bottom flex dropdown-end">
                 <div tabindex="0" class="avatar">
@@ -80,9 +100,7 @@ const showSideMobile = ref<boolean>(false)
 
                   class="dropdown-content z-[1] p-2 bg-secondary border border-base-300 rounded-lg shadow-xl rounded-box w-52"
                 >
-                  <li class="hover:bg-primary py-1 px-2 rounded cursor-pointer">
-                    <a>Cambiar contraseña</a>
-                  </li>
+              
                   <li @click="logout" class="hover:bg-primary cursor-pointer py-1 px-2 rounded "><a>Cerrar sesión</a></li>
                   <li class="hover:bg-primary cursor-pointer py-1 px-2 rounded "> <ChangeTheme></ChangeTheme></li>
                 </ul>

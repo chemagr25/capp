@@ -17,6 +17,8 @@ const page = ref<number>(0)
 //data for create service
 const brand = ref<string>()
 
+
+
 const totalPartsPrice = ref<number>(0)
 
 const model = ref<string>()
@@ -35,11 +37,13 @@ const loadingComment = ref<boolean>(false)
 const idDevice = ref<number>(0)
 
 //DEVICE PART
-const  partName = ref<string>()
-const  partDescription = ref<string>()
-const  partPrice = ref<string>()
-const  partQuantity = ref<string>()
-const  partObservations = ref<string>()
+const  partName = ref<string>('')
+const  partDescription = ref<string>('')
+const  partPrice = ref<string>('')
+const  partQuantity = ref<string>('')
+const  partObservations = ref<string>('')
+
+const goBack = () => router.go(-1)
 
 
 const deviceParts = ref<Part[]>([] || undefined)
@@ -67,14 +71,19 @@ export const useService = () => {
       services.value = data.content
       isLoading.value = false
       totalPages.value = data.totalPages
-    } catch {
+    } catch(e) {
+      console.log(e)
       isLoading.value = false
-      localStorage.removeItem('token_auth')
-      localStorage.removeItem('uid')
-      localStorage.removeItem('role')
-      router.push({ name: 'login' })
+      showToast('Error', 'Ocurrió un error, inténtalo nuevamente más tarde')
+      // localStorage.removeItem('token_auth')
+      // localStorage.removeItem('uid')
+      // localStorage.removeItem('role')
+      // router.push({ name: 'login' })
     }
   }
+
+
+
 
   const createService = async () => {
     isLoading.value = true
@@ -129,6 +138,25 @@ export const useService = () => {
     } catch {
       console.log('error')
     }
+  }
+
+
+  const deleteService = async (id: number | string | string[]) => {
+    try {
+      await apiResources.delete(`/services/${id}`, {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('token_auth')
+        }
+      })
+
+      showToast('Éxito', 'Servicio eliminado correctamente', 'success')
+      goBack()
+
+    }catch(e) {
+      alert(e)
+      showToast('Error', 'Ocurrió un error, inténtalo nuevamente más tarde')
+    }
+
   }
 
   const getServiceById = async (id: string | number | string[]) => {
@@ -244,7 +272,7 @@ export const useService = () => {
     } catch (e) {
       loadingComment.value = false
 
-      showToast('Error', 'Revisa tu conexión a internet e inténtalo nuevamente')
+      // showToast('Error', 'Revisa tu conexión a internet e inténtalo nuevamente')
     }
   }
 
@@ -282,5 +310,5 @@ export const useService = () => {
     partQuantity,
     partObservations,
   setPiece,
-totalPartsPrice }
+totalPartsPrice, deleteService }
 }
